@@ -47,7 +47,7 @@ export const login = async (req, res) => {
       ip,
       browser: agent.toAgent(),
       os: agent.os.toString(),
-      deviceType: agent.device.toString(),
+      deviceType: agent.isMobile() ? 'Mobile' : 'Desktop',
     };
 
     existinguser.loginHistory.push(loginInfo);
