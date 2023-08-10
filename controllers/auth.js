@@ -43,11 +43,12 @@ export const login = async (req, res) => {
     }
     const agent = useragent.parse(req.headers['user-agent']);
     const ip = requestIp.getClientIp(req);
+    const deviceType = agent.os.family.toLowerCase().includes('mobile') ? 'Mobile' : 'Desktop';
     const loginInfo = {
       ip,
       browser: agent.toAgent(),
       os: agent.os.toString(),
-      deviceType: agent.isMobile() ? 'Mobile' : 'Desktop',
+      deviceType: deviceType,
     };
 
     existinguser.loginHistory.push(loginInfo);
@@ -59,6 +60,7 @@ export const login = async (req, res) => {
     );
     res.status(200).json({ result: existinguser, token });
   } catch (error) {
-    res.status(500).json("Something went worng...");
+    console.log(error);
+    res.status(500).json(error);
   }
 };
